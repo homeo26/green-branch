@@ -28,3 +28,6 @@ yarn-error.log*
 .vscode/
 .idea/
 .kiro/
+
+# Local Netlify folder
+.netlify
