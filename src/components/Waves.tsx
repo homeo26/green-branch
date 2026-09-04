@@ -4,43 +4,56 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 /**
- * موجات خضراء عريضة أسفل قسم البطل — ثلاث طبقات تنزلق ببطء
- * مع تموّج عمودي ناعم يمنح إحساس الموجة الحيّة.
+ * موجات خضراء عريضة بتعبئة متدرجة — منحنيات جيبية متناظرة
+ * (القمة بعمق القاع نفسه) تنزلق ببطء مع تموّج عمودي ناعم.
  */
+
+/* منحنى جيبي متناظر: يبدأ وينتهي عند نفس النقطة للتكرار السلس */
+const SINE_FRONT =
+  "M0,130 C120,40 240,40 360,130 C480,220 600,220 720,130 C840,40 960,40 1080,130 C1200,220 1320,220 1440,130 L1440,320 L0,320 Z";
+const SINE_BACK =
+  "M0,130 C120,220 240,220 360,130 C480,40 600,40 720,130 C840,220 960,220 1080,130 C1200,40 1320,40 1440,130 L1440,320 L0,320 Z";
+
 export default function Waves({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`pointer-events-none absolute inset-x-0 bottom-0 h-44 overflow-hidden sm:h-56 md:h-72 ${className}`}
+      className={`pointer-events-none absolute inset-x-0 bottom-0 h-64 overflow-hidden sm:h-80 md:h-96 ${className}`}
       aria-hidden
     >
       <WaveLayer
-        color="rgba(61, 154, 103, 0.30)"
+        id="back"
+        from="#3d9a67"
+        to="#eaf7ef"
+        opacity={0.4}
         animation="animate-wave-slow"
         bob
-        path="M0,60 C160,170 320,10 480,80 C640,150 800,220 960,140 C1120,60 1280,20 1440,100 L1440,300 L0,300 Z"
+        path={SINE_BACK}
       />
       <WaveLayer
-        color="rgba(47, 125, 84, 0.5)"
+        id="front"
+        from="#9fd8b8"
+        to="#fbfdf9"
+        opacity={1}
         animation="animate-wave-mid"
-        path="M0,150 C180,60 380,240 580,150 C780,70 940,40 1120,130 C1260,200 1370,170 1440,130 L1440,300 L0,300 Z"
-      />
-      <WaveLayer
-        color="#fbfdf9"
-        animation="animate-wave-fast"
-        bob
-        path="M0,210 C220,130 440,270 680,200 C900,140 1180,250 1440,180 L1440,300 L0,300 Z"
+        path={SINE_FRONT}
       />
     </div>
   );
 }
 
 function WaveLayer({
-  color,
+  id,
+  from,
+  to,
+  opacity,
   animation,
   path,
   bob = false,
 }: {
-  color: string;
+  id: string;
+  from: string;
+  to: string;
+  opacity: number;
   animation: string;
   path: string;
   bob?: boolean;
@@ -55,11 +68,17 @@ function WaveLayer({
         {[0, 1].map((i) => (
           <svg
             key={i}
-            viewBox="0 0 1440 300"
+            viewBox="0 0 1440 320"
             preserveAspectRatio="none"
             className="h-full w-1/2 shrink-0"
           >
-            <path fill={color} d={path} />
+            <defs>
+              <linearGradient id={`wave-${id}-${i}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={from} />
+                <stop offset="100%" stopColor={to} />
+              </linearGradient>
+            </defs>
+            <path fill={`url(#wave-${id}-${i})`} opacity={opacity} d={path} />
           </svg>
         ))}
       </div>

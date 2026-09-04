@@ -31,21 +31,9 @@ export default function HomePage() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(160deg,#eaf7ef_0%,#ffffff_50%,#f6ecdf_100%)]">
-      {/* أشكال دائرية عائمة بأسلوب لوازم — بألوان الغصن الأخضر */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="animate-shape-float absolute -top-52 -right-52 h-[600px] w-[600px] rounded-full bg-forest-800 opacity-[0.08]" />
-        <div
-          className="animate-shape-float absolute -bottom-24 -left-24 h-[400px] w-[400px] rounded-full bg-gold-500 opacity-[0.08]"
-          style={{ animationDuration: "6s", animationDirection: "reverse" }}
-        />
-        <div
-          className="animate-shape-float absolute left-[10%] top-[30%] h-[200px] w-[200px] rounded-full bg-gold-500 opacity-[0.08]"
-          style={{ animationDuration: "10s" }}
-        />
-      </div>
       <DriftingLeaves />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-48 pt-6 sm:px-6 sm:pb-56 md:pb-72 lg:grid-cols-2 lg:px-8 lg:pt-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-36 pt-6 sm:px-6 sm:pb-44 md:pb-48 lg:grid-cols-2 lg:px-8 lg:pt-10">
         <Reveal>
           <h1 className="font-heading text-4xl font-extrabold leading-[1.35] text-forest-900 sm:text-5xl lg:text-[3.2rem]">
             ازرع بثقة مع{" "}
@@ -136,7 +124,7 @@ const pillars = [
 
 function Pillars() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative z-10 mx-auto -mt-24 max-w-7xl px-4 pb-16 sm:-mt-32 sm:px-6 md:-mt-40 lg:px-8">
       <div className="grid gap-6 md:grid-cols-3">
         {pillars.map((pillar, i) => (
           <Reveal key={pillar.href} delay={i * 0.12}>
