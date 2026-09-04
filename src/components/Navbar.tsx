@@ -86,13 +86,14 @@ export default function Navbar() {
             width={44}
             height={44}
             priority
+            className="h-9 w-9 shrink-0 sm:h-11 sm:w-11"
           />
-          <span className="flex flex-col max-[400px]:hidden">
-            <span className="font-heading text-lg font-bold leading-6 text-forest-800">
+          <span className="flex flex-col">
+            <span className="font-heading text-base font-bold leading-5 text-forest-800 sm:text-lg sm:leading-6">
               الغصن الأخضر
             </span>
             <span
-              className="text-[10px] font-bold tracking-[0.18em] text-gold-500"
+              className="text-[8px] font-bold tracking-[0.14em] text-gold-500 sm:text-[10px] sm:tracking-[0.18em]"
               dir="ltr"
             >
               GREEN BRANCH
