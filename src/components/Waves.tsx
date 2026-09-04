@@ -122,7 +122,7 @@ export function BreathingWords({
   const reduce = useReducedMotion();
 
   useEffect(() => {
-    const t = setInterval(() => setIndex((i) => (i + 1) % words.length), 1900);
+    const t = setInterval(() => setIndex((i) => (i + 1) % words.length), 3000);
     return () => clearInterval(t);
   }, [words.length]);
 
@@ -131,16 +131,20 @@ export function BreathingWords({
       <AnimatePresence mode="wait">
         <motion.span
           key={words[index]}
-          initial={reduce ? false : { opacity: 0, scale: 0.92 }}
+          initial={reduce ? false : { opacity: 0, scale: 0.95 }}
           animate={{
             opacity: 1,
-            scale: reduce ? 1 : [0.96, 1.04, 1],
+            scale: reduce ? 1 : [0.98, 1.04, 1],
+            transition: {
+              opacity: { duration: 0.3 },
+              scale: { duration: 2.4, ease: "easeInOut" },
+            },
           }}
-          exit={reduce ? {} : { opacity: 0, scale: 0.94 }}
-          transition={{
-            opacity: { duration: 0.25 },
-            scale: { duration: 1.6, ease: "easeInOut" },
-          }}
+          exit={
+            reduce
+              ? {}
+              : { opacity: 0, scale: 0.97, transition: { duration: 0.15 } }
+          }
           className="inline-block"
         >
           {words[index]}

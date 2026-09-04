@@ -33,7 +33,7 @@ function Hero() {
     <section className="relative overflow-hidden bg-[linear-gradient(160deg,#eaf7ef_0%,#ffffff_50%,#f6ecdf_100%)]">
       <DriftingLeaves />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-36 pt-6 sm:px-6 sm:pb-44 md:pb-48 lg:grid-cols-2 lg:px-8 lg:pt-10">
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-40 pt-6 sm:px-6 sm:pb-48 md:pb-56 lg:grid-cols-2 lg:px-8 lg:pt-10">
         <Reveal>
           <h1 className="font-heading text-4xl font-extrabold leading-[1.35] text-forest-900 sm:text-5xl lg:text-[3.2rem]">
             ازرع بثقة مع{" "}
