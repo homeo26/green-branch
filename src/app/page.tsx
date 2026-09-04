@@ -35,7 +35,7 @@ function Hero() {
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-40 pt-6 sm:px-6 sm:pb-48 md:pb-56 lg:grid-cols-2 lg:px-8 lg:pt-10">
         <Reveal>
-          <h1 className="font-heading text-4xl font-extrabold leading-[1.35] text-forest-900 sm:text-5xl lg:text-[3.2rem]">
+          <h1 className="whitespace-nowrap font-heading text-[clamp(1.6rem,5.4vw,3rem)] font-extrabold leading-[1.5] text-forest-900">
             ازرع بثقة مع{" "}
             <span className="text-gradient-green">الغصن الأخضر</span>
           </h1>

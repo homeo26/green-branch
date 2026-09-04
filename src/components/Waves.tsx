@@ -131,20 +131,9 @@ export function BreathingWords({
       <AnimatePresence mode="wait">
         <motion.span
           key={words[index]}
-          initial={reduce ? false : { opacity: 0, scale: 0.95 }}
-          animate={{
-            opacity: 1,
-            scale: reduce ? 1 : [0.98, 1.04, 1],
-            transition: {
-              opacity: { duration: 0.3 },
-              scale: { duration: 2.4, ease: "easeInOut" },
-            },
-          }}
-          exit={
-            reduce
-              ? {}
-              : { opacity: 0, scale: 0.97, transition: { duration: 0.15 } }
-          }
+          initial={reduce ? false : { opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.3 } }}
+          exit={reduce ? {} : { opacity: 0, transition: { duration: 0.15 } }}
           className="inline-block"
         >
           {words[index]}
