@@ -77,7 +77,7 @@ export default function Navbar() {
         {/* الشعار */}
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2.5 transition-transform duration-200 hover:scale-105"
+          className="order-2 flex shrink-0 items-center gap-2.5 transition-transform duration-200 hover:scale-105 lg:order-1"
           aria-label="الغصن الأخضر — الصفحة الرئيسية"
         >
           <Image
@@ -101,7 +101,7 @@ export default function Navbar() {
         </Link>
 
         {/* روابط سطح المكتب */}
-        <div className="hidden items-center gap-1 lg:flex">
+        <div className="order-2 hidden items-center gap-1 lg:flex">
           <NavItem href="/" active={pathname === "/"}>
             الرئيسية
           </NavItem>
@@ -192,7 +192,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="order-1 flex items-center gap-3 lg:order-3">
           <Link
             href="/contact"
             className="btn btn-primary btn-sheen hidden px-5 py-2.5 text-sm lg:inline-flex"

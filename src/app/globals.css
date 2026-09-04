@@ -43,6 +43,7 @@
   --animate-sway-slow: sway 8s ease-in-out infinite;
   --animate-grass-breathe: grass-breathe 7s ease-in-out infinite;
   --animate-leaf-drift: leaf-drift 14s linear infinite;
+  --animate-shape-float: shape-float 8s ease-in-out infinite;
   --animate-gradient-flow: gradient-flow 10s ease-in-out infinite;
   --animate-float: float 7s ease-in-out infinite;
 
@@ -73,6 +74,10 @@
   @keyframes grass-breathe {
     0%, 100% { transform: scaleY(1); }
     50% { transform: scaleY(1.06); }
+  }
+  @keyframes shape-float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
   }
   @keyframes leaf-drift {
     0% { transform: translate(0, -10px) rotate(0deg); opacity: 0; }

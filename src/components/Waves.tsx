@@ -3,111 +3,66 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-/* ورقة نبات بسيطة تُعاد بأحجام وألوان مختلفة */
-function Leaf({ color = "#2f7d54" }: { color?: string }) {
+/**
+ * موجات خضراء عريضة أسفل قسم البطل — ثلاث طبقات تنزلق ببطء
+ * مع تموّج عمودي ناعم يمنح إحساس الموجة الحيّة.
+ */
+export default function Waves({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill={color} className="h-full w-full" aria-hidden>
-      <path d="M12 2C7 6 4 10.5 4 15a8 8 0 0 0 16 0c0-4.5-3-9-8-13z" />
-      <path
-        d="M12 6v13"
-        stroke="rgba(255,255,255,0.5)"
-        strokeWidth="1.2"
-        fill="none"
-        strokeLinecap="round"
+    <div
+      className={`pointer-events-none absolute inset-x-0 bottom-0 h-44 overflow-hidden sm:h-56 md:h-72 ${className}`}
+      aria-hidden
+    >
+      <WaveLayer
+        color="rgba(61, 154, 103, 0.30)"
+        animation="animate-wave-slow"
+        bob
+        path="M0,60 C160,170 320,10 480,80 C640,150 800,220 960,140 C1120,60 1280,20 1440,100 L1440,300 L0,300 Z"
       />
-      <path
-        d="M12 10c1.6-.8 2.8-.8 4 0M12 14c-1.6-.8-2.8-.8-4 0"
-        stroke="rgba(255,255,255,0.5)"
-        strokeWidth="1.2"
-        fill="none"
-        strokeLinecap="round"
+      <WaveLayer
+        color="rgba(47, 125, 84, 0.5)"
+        animation="animate-wave-mid"
+        path="M0,150 C180,60 380,240 580,150 C780,70 940,40 1120,130 C1260,200 1370,170 1440,130 L1440,300 L0,300 Z"
       />
-    </svg>
+      <WaveLayer
+        color="#fbfdf9"
+        animation="animate-wave-fast"
+        bob
+        path="M0,210 C220,130 440,270 680,200 C900,140 1180,250 1440,180 L1440,300 L0,300 Z"
+      />
+    </div>
   );
 }
 
-/* أوراق مصفوفة على امتداد الحقل — كل ورقة تتمايل بإيقاع مختلف */
-const fieldLeaves = [
-  { start: "2%", size: 44, color: "#256344", delay: 0, slow: false },
-  { start: "9%", size: 64, color: "#2f7d54", delay: 1.2, slow: true },
-  { start: "17%", size: 38, color: "#3d9a67", delay: 0.5, slow: false },
-  { start: "26%", size: 56, color: "#1d4a34", delay: 2.1, slow: true },
-  { start: "34%", size: 42, color: "#2f7d54", delay: 0.8, slow: false },
-  { start: "43%", size: 70, color: "#256344", delay: 1.6, slow: true },
-  { start: "52%", size: 40, color: "#3d9a67", delay: 0.2, slow: false },
-  { start: "60%", size: 58, color: "#2f7d54", delay: 2.6, slow: true },
-  { start: "69%", size: 46, color: "#1d4a34", delay: 1.0, slow: false },
-  { start: "77%", size: 66, color: "#256344", delay: 0.4, slow: true },
-  { start: "86%", size: 40, color: "#3d9a67", delay: 1.9, slow: false },
-  { start: "93%", size: 54, color: "#2f7d54", delay: 0.7, slow: true },
-];
-
-/**
- * نسيم الحقل: تلة خضراء "تتنفس" بهدوء تعلوها أوراق تتمايل مع الريح،
- * وأوراق طائرة تنجرف عبر المشهد.
- */
-export default function FieldBreeze({ className = "" }: { className?: string }) {
+function WaveLayer({
+  color,
+  animation,
+  path,
+  bob = false,
+}: {
+  color: string;
+  animation: string;
+  path: string;
+  bob?: boolean;
+}) {
   const reduce = useReducedMotion();
   return (
-    <div
-      className={`pointer-events-none absolute inset-x-0 bottom-0 h-36 sm:h-44 md:h-52 ${className}`}
-      aria-hidden
-    >
-      {/* أوراق منجرفة مع الريح */}
-      {!reduce && (
-        <>
-          <div
-            className="animate-leaf-drift absolute end-[4%] top-0 h-7 w-7 opacity-0"
-            style={{ animationDelay: "1s" }}
-          >
-            <Leaf color="#3d9a67" />
-          </div>
-          <div
-            className="animate-leaf-drift absolute end-[18%] top-6 h-5 w-5 opacity-0"
-            style={{ animationDelay: "7s" }}
-          >
-            <Leaf color="#c68b4e" />
-          </div>
-        </>
-      )}
-
-      {/* صف الأوراق المتمايلة */}
-      <div className="absolute inset-x-0 bottom-8 sm:bottom-10">
-        {fieldLeaves.map((leaf, i) => (
-          <div
+    <div className={`absolute inset-0 ${reduce || !bob ? "" : "animate-wave-bob"}`}>
+      <div
+        dir="ltr"
+        className={`absolute bottom-0 left-0 flex h-full w-[200%] ${reduce ? "" : animation}`}
+      >
+        {[0, 1].map((i) => (
+          <svg
             key={i}
-            className={`absolute bottom-0 origin-bottom ${
-              reduce ? "" : leaf.slow ? "animate-sway-slow" : "animate-sway"
-            }`}
-            style={{
-              insetInlineStart: leaf.start,
-              width: leaf.size,
-              height: leaf.size * 1.25,
-              animationDelay: `${leaf.delay}s`,
-            }}
+            viewBox="0 0 1440 300"
+            preserveAspectRatio="none"
+            className="h-full w-1/2 shrink-0"
           >
-            <Leaf color={leaf.color} />
-          </div>
+            <path fill={color} d={path} />
+          </svg>
         ))}
       </div>
-
-      {/* التلة الخضراء تتنفس */}
-      <svg
-        viewBox="0 0 1440 90"
-        preserveAspectRatio="none"
-        className={`absolute bottom-0 h-12 w-full origin-bottom sm:h-16 ${
-          reduce ? "" : "animate-grass-breathe"
-        }`}
-      >
-        <path
-          fill="#e3f6ea"
-          d="M0,50 C240,15 480,70 720,45 C960,20 1200,60 1440,35 L1440,90 L0,90 Z"
-        />
-        <path
-          fill="#fbfdf9"
-          d="M0,70 C260,45 520,85 780,65 C1040,45 1250,75 1440,60 L1440,90 L0,90 Z"
-        />
-      </svg>
     </div>
   );
 }
@@ -173,5 +128,53 @@ export function BreathingWords({
         </motion.span>
       </AnimatePresence>
     </span>
+  );
+}
+
+/* ورقة نبات صغيرة للأوراق الطائرة */
+function Leaf({ color = "#2f7d54" }: { color?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill={color} className="h-full w-full" aria-hidden>
+      <path d="M12 2C7 6 4 10.5 4 15a8 8 0 0 0 16 0c0-4.5-3-9-8-13z" />
+      <path
+        d="M12 6v13"
+        stroke="rgba(255,255,255,0.5)"
+        strokeWidth="1.2"
+        fill="none"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** أوراق صغيرة تنجرف مع الريح عبر المشهد */
+export function DriftingLeaves() {
+  const reduce = useReducedMotion();
+  if (reduce) return null;
+  const leaves = [
+    { top: "18%", end: "6%", size: 26, color: "#3d9a67", delay: 0, duration: 13 },
+    { top: "38%", end: "14%", size: 18, color: "#c68b4e", delay: 4.5, duration: 16 },
+    { top: "10%", end: "38%", size: 22, color: "#2f7d54", delay: 8, duration: 14 },
+    { top: "55%", end: "4%", size: 16, color: "#d9a86d", delay: 11, duration: 17 },
+  ];
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {leaves.map((leaf, i) => (
+        <div
+          key={i}
+          className="animate-leaf-drift absolute opacity-0"
+          style={{
+            top: leaf.top,
+            insetInlineEnd: leaf.end,
+            width: leaf.size,
+            height: leaf.size,
+            animationDelay: `${leaf.delay}s`,
+            animationDuration: `${leaf.duration}s`,
+          }}
+        >
+          <Leaf color={leaf.color} />
+        </div>
+      ))}
+    </div>
   );
 }

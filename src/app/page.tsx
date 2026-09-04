@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Waves, { BreathingWords, Reveal } from "@/components/Waves";
+import Waves, { BreathingWords, DriftingLeaves, Reveal } from "@/components/Waves";
 import { ArticleCard, VideoCard } from "@/components/cards";
 import { allCategories, socialLinks } from "@/data/categories";
 import { articles, videos } from "@/data/content";
@@ -30,18 +30,22 @@ export default function HomePage() {
 /* ─────────────── قسم البطل: خلفية خضراء متموجة ─────────────── */
 function Hero() {
   return (
-    <section className="gradient-flow relative overflow-hidden">
-      {/* هالات خضراء ناعمة */}
-      <div
-        className="pointer-events-none absolute -start-32 -top-32 h-96 w-96 rounded-full bg-leaf-400/15 blur-3xl"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -end-24 top-24 h-80 w-80 rounded-full bg-gold-400/15 blur-3xl"
-        aria-hidden
-      />
+    <section className="relative overflow-hidden bg-[linear-gradient(160deg,#eaf7ef_0%,#ffffff_50%,#f6ecdf_100%)]">
+      {/* أشكال دائرية عائمة بأسلوب لوازم — بألوان الغصن الأخضر */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="animate-shape-float absolute -top-52 -right-52 h-[600px] w-[600px] rounded-full bg-forest-800 opacity-[0.08]" />
+        <div
+          className="animate-shape-float absolute -bottom-24 -left-24 h-[400px] w-[400px] rounded-full bg-gold-500 opacity-[0.08]"
+          style={{ animationDuration: "6s", animationDirection: "reverse" }}
+        />
+        <div
+          className="animate-shape-float absolute left-[10%] top-[30%] h-[200px] w-[200px] rounded-full bg-gold-500 opacity-[0.08]"
+          style={{ animationDuration: "10s" }}
+        />
+      </div>
+      <DriftingLeaves />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-48 pt-14 sm:px-6 md:pb-56 lg:grid-cols-2 lg:px-8 lg:pt-20">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-48 pt-6 sm:px-6 sm:pb-56 md:pb-72 lg:grid-cols-2 lg:px-8 lg:pt-10">
         <Reveal>
           <h1 className="font-heading text-4xl font-extrabold leading-[1.35] text-forest-900 sm:text-5xl lg:text-[3.2rem]">
             ازرع بثقة مع{" "}
