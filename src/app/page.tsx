@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Waves, { Reveal } from "@/components/Waves";
+import Waves, { BreathingWords, Reveal } from "@/components/Waves";
 import { ArticleCard, VideoCard } from "@/components/cards";
 import { allCategories, socialLinks } from "@/data/categories";
 import { articles, videos } from "@/data/content";
@@ -10,6 +10,7 @@ import {
   CategoryIcon,
   ChatIcon,
   PlayIcon,
+  WhatsAppIcon,
   YoutubeIcon,
 } from "@/components/icons";
 
@@ -40,20 +41,29 @@ function Hero() {
         aria-hidden
       />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-40 pt-14 sm:px-6 md:pb-48 lg:grid-cols-2 lg:px-8 lg:pt-20">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-48 pt-14 sm:px-6 md:pb-56 lg:grid-cols-2 lg:px-8 lg:pt-20">
         <Reveal>
-          <p className="inline-flex items-center gap-2 rounded-full border border-leaf-400/40 bg-white/70 px-4 py-1.5 text-sm font-semibold text-forest-700 backdrop-blur">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-leaf-500" />
-            منصتك الزراعية الموثوقة
-          </p>
-          <h1 className="mt-5 font-heading text-4xl font-extrabold leading-[1.25] text-forest-900 sm:text-5xl lg:text-[3.4rem]">
+          <h1 className="font-heading text-4xl font-extrabold leading-[1.35] text-forest-900 sm:text-5xl lg:text-[3.2rem]">
             ازرع بثقة مع{" "}
             <span className="text-gradient-green">الغصن الأخضر</span>
           </h1>
+          <p className="mt-4 font-heading text-2xl font-bold text-forest-700 sm:text-3xl">
+            دليلك الموثوق في{" "}
+            <BreathingWords
+              words={[
+                "زراعة العنب",
+                "العناية بالتين",
+                "الليمون والحمضيات",
+                "التسميد الصحيح",
+                "تقنيات الإثمار",
+                "وقاية المحاصيل",
+              ]}
+              className="text-gold-600"
+            />
+          </p>
           <p className="mt-5 max-w-xl text-lg leading-8 text-ink-muted">
             محتوى شامل وموثوق يجمع المقالات الإرشادية ومقاطع الفيديو التعليمية
-            والنصائح العملية في كل ما يخص الزراعة — من العنب والتين والحمضيات
-            إلى التسميد وتقنيات الإثمار والوقاية.
+            والنصائح العملية في كل ما يخص الزراعة.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/articles" className="btn btn-primary btn-sheen px-7 py-3.5">
@@ -69,13 +79,9 @@ function Hero() {
             href={socialLinks.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-muted transition-colors duration-200 hover:text-forest-600"
+            className="btn btn-sheen mt-6 bg-[#FF0000] px-6 py-3 text-sm text-white shadow-[0_8px_24px_-8px_rgb(255_0_0/0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#cc0000]"
           >
-            <YoutubeIcon
-              width={18}
-              height={18}
-              className="text-gold-600 transition-transform duration-300 group-hover:scale-125"
-            />
+            <YoutubeIcon width={22} height={22} />
             تابعنا على يوتيوب — قناة الغصن الأخضر
           </a>
         </Reveal>
@@ -134,7 +140,7 @@ function Pillars() {
               href={pillar.href}
               className="card-organic group block h-full p-7"
             >
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-leaf-100 text-forest-700 transition-all duration-300 group-hover:rotate-6 group-hover:bg-forest-800 group-hover:text-white">
+              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-800 text-white shadow-leaf transition-all duration-300 group-hover:rotate-6 group-hover:bg-gold-500">
                 <pillar.Icon width={26} height={26} />
               </span>
               <h2 className="mt-5 font-heading text-xl font-bold text-forest-900 transition-colors duration-200 group-hover:text-forest-600">
@@ -174,7 +180,7 @@ function Categories() {
               href={`/category/${cat.slug}`}
               className="card-organic group flex h-full flex-col items-center p-6 text-center"
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-leaf-100 to-leaf-50 text-forest-700 transition-all duration-300 group-hover:from-forest-800 group-hover:to-forest-600 group-hover:text-white">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-forest-700 to-forest-500 text-white shadow-leaf transition-all duration-300 group-hover:from-gold-600 group-hover:to-gold-400">
                 <CategoryIcon name={cat.icon} width={28} height={28} />
               </span>
               <h3 className="mt-4 font-heading font-bold text-forest-900 transition-colors duration-200 group-hover:text-forest-600">
@@ -227,7 +233,6 @@ function LatestArticles() {
   );
 }
 
-
 /* ─────────────── أحدث الفيديوهات ─────────────── */
 function LatestVideos() {
   const latest = videos.slice(0, 3);
@@ -237,7 +242,7 @@ function LatestVideos() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading
             title="من مكتبة الفيديو"
-            subtitle="شروحات عملية مصوّرة من قلب المزرعة"
+            subtitle="شروحات عملية مصوّرة من قلب المزرعة — شاهدها مباشرة هنا"
           />
           <Link href="/videos" className="btn btn-outline px-5 py-2.5 text-sm">
             كل الفيديوهات
@@ -249,9 +254,9 @@ function LatestVideos() {
         {latest.map((video, i) => (
           <Reveal key={video.id} delay={i * 0.12}>
             <VideoCard
+              youtubeId={video.youtubeId}
               title={video.title}
               category={video.category}
-              duration={video.duration}
             />
           </Reveal>
         ))}
@@ -259,7 +264,6 @@ function LatestVideos() {
     </section>
   );
 }
-
 
 /* ─────────────── دعوة للاستشارة ─────────────── */
 function ConsultCta() {
@@ -276,17 +280,17 @@ function ConsultCta() {
             aria-hidden
           />
           <h2 className="font-heading text-3xl font-extrabold text-white sm:text-4xl">
-            عندك سؤال عن مزروعاتك؟
+            هل لديك سؤال حول مزروعاتك؟
           </h2>
           <p className="mx-auto mt-4 max-w-2xl leading-8 text-leaf-100/90">
-            فريق الغصن الأخضر جاهز للإجابة على استفساراتك وتقديم استشارات
-            زراعية عملية تناسب أرضك ومحصولك.
+            فريق الغصن الأخضر مستعد للإجابة عن استفساراتكم وتقديم استشارات
+            زراعية عملية تناسب أرضكم ومحصولكم.
           </p>
           <Link
             href="/contact"
-            className="btn btn-light btn-sheen mt-8 px-8 py-3.5"
+            className="btn btn-sheen mt-8 bg-[#25D366] px-8 py-3.5 text-white shadow-[0_8px_24px_-8px_rgb(37_211_102/0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1eb955]"
           >
-            <ChatIcon width={20} height={20} />
+            <WhatsAppIcon width={22} height={22} />
             اطلب استشارتك الآن
           </Link>
         </div>

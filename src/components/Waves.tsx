@@ -1,31 +1,35 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 /**
  * موجات خضراء متحركة أسفل قسم البطل (Hero).
- * ثلاث طبقات SVG تنزلق أفقيًا بسرعات مختلفة لعمق بصري مريح.
+ * ثلاث طبقات SVG تنزلق أفقيًا ببطء مع تموّج عمودي ناعم
+ * يمنح إحساس الموجة الحيّة.
  */
 export default function Waves({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`pointer-events-none absolute inset-x-0 bottom-0 h-28 overflow-hidden sm:h-36 md:h-44 ${className}`}
+      className={`pointer-events-none absolute inset-x-0 bottom-0 h-40 overflow-hidden sm:h-52 md:h-64 ${className}`}
       aria-hidden
     >
       <WaveLayer
-        color="rgba(61, 154, 103, 0.35)"
+        color="rgba(61, 154, 103, 0.30)"
         animation="animate-wave-slow"
-        path="M0,64 C180,110 360,20 540,52 C720,84 900,120 1080,88 C1260,56 1350,30 1440,54 L1440,160 L0,160 Z"
+        bob
+        path="M0,96 C160,160 320,20 480,70 C640,120 800,190 960,130 C1120,70 1280,30 1440,90 L1440,260 L0,260 Z"
       />
       <WaveLayer
-        color="rgba(47, 125, 84, 0.55)"
+        color="rgba(47, 125, 84, 0.5)"
         animation="animate-wave-mid"
-        path="M0,90 C200,50 400,120 620,92 C840,64 1040,40 1240,78 C1340,96 1400,90 1440,80 L1440,160 L0,160 Z"
+        path="M0,140 C180,70 380,200 580,140 C780,80 940,50 1120,120 C1260,175 1370,150 1440,120 L1440,260 L0,260 Z"
       />
       <WaveLayer
         color="#fbfdf9"
         animation="animate-wave-fast"
-        path="M0,110 C240,80 480,140 720,112 C960,84 1200,120 1440,96 L1440,160 L0,160 Z"
+        bob
+        path="M0,180 C220,120 440,230 680,180 C900,135 1180,210 1440,160 L1440,260 L0,260 Z"
       />
     </div>
   );
@@ -35,27 +39,31 @@ function WaveLayer({
   color,
   animation,
   path,
+  bob = false,
 }: {
   color: string;
   animation: string;
   path: string;
+  bob?: boolean;
 }) {
   const reduce = useReducedMotion();
   return (
-    <div
-      dir="ltr"
-      className={`absolute bottom-0 left-0 flex h-full w-[200%] ${reduce ? "" : animation}`}
-    >
-      {[0, 1].map((i) => (
-        <svg
-          key={i}
-          viewBox="0 0 1440 160"
-          preserveAspectRatio="none"
-          className="h-full w-1/2 shrink-0"
-        >
-          <path fill={color} d={path} />
-        </svg>
-      ))}
+    <div className={`absolute inset-0 ${reduce || !bob ? "" : "animate-wave-bob"}`}>
+      <div
+        dir="ltr"
+        className={`absolute bottom-0 left-0 flex h-full w-[200%] ${reduce ? "" : animation}`}
+      >
+        {[0, 1].map((i) => (
+          <svg
+            key={i}
+            viewBox="0 0 1440 260"
+            preserveAspectRatio="none"
+            className="h-full w-1/2 shrink-0"
+          >
+            <path fill={color} d={path} />
+          </svg>
+        ))}
+      </div>
     </div>
   );
 }
@@ -81,5 +89,55 @@ export function Reveal({
     >
       {children}
     </motion.div>
+  );
+}
+
+/** كلمات متبدّلة بتأثير "تنفّس" ناعم */
+export function BreathingWords({
+  words,
+  className = "",
+}: {
+  words: string[];
+  className?: string;
+}) {
+  return <BreathingWordsInner words={words} className={className} />;
+}
+
+function BreathingWordsInner({
+  words,
+  className,
+}: {
+  words: string[];
+  className?: string;
+}) {
+  const [index, setIndex] = useState(0);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const t = setInterval(() => setIndex((i) => (i + 1) % words.length), 3200);
+    return () => clearInterval(t);
+  }, [words.length]);
+
+  return (
+    <span className={`relative inline-block ${className}`} aria-live="polite">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={words[index]}
+          initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+          animate={{
+            opacity: 1,
+            scale: reduce ? 1 : [1, 1.05, 1],
+          }}
+          exit={reduce ? {} : { opacity: 0, scale: 0.92 }}
+          transition={{
+            opacity: { duration: 0.45 },
+            scale: { duration: 3.2, ease: "easeInOut" },
+          }}
+          className="inline-block"
+        >
+          {words[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
   );
 }

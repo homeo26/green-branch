@@ -26,17 +26,19 @@
   --color-surface: #ffffff;
   --color-border-soft: #d7ecdd;
 
-  --font-heading: var(--font-alexandria), system-ui, sans-serif;
-  --font-body: var(--font-tajawal), system-ui, sans-serif;
+  --font-heading: var(--font-cairo), system-ui, sans-serif;
+  --font-body: var(--font-cairo), system-ui, sans-serif;
 
   --radius-organic: 1.25rem;
 
   --shadow-leaf: 0 8px 30px -8px rgb(29 74 52 / 0.18);
   --shadow-leaf-lg: 0 20px 50px -12px rgb(29 74 52 / 0.28);
 
-  --animate-wave-slow: wave-drift 14s linear infinite;
-  --animate-wave-mid: wave-drift 9s linear infinite;
-  --animate-wave-fast: wave-drift 6s linear infinite;
+  --animate-wave-slow: wave-drift 34s linear infinite;
+  --animate-wave-mid: wave-drift 24s linear infinite;
+  --animate-wave-fast: wave-drift 16s linear infinite;
+  --animate-wave-bob: wave-bob 9s ease-in-out infinite;
+  --animate-breathe: breathe 3.2s ease-in-out infinite;
   --animate-gradient-flow: gradient-flow 10s ease-in-out infinite;
   --animate-float: float 7s ease-in-out infinite;
 
@@ -51,6 +53,14 @@
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
+  }
+  @keyframes wave-bob {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    50% { transform: translateY(10px) scaleY(0.94); }
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.88; }
   }
 }
 

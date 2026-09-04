@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { allCategories, socialLinks } from "@/data/categories";
+import { allCategories } from "@/data/categories";
 import {
   ArrowLeftIcon,
   CategoryIcon,
   ClockIcon,
-  PlayIcon,
 } from "@/components/icons";
 
 export function ArticleCard({
@@ -23,74 +22,83 @@ export function ArticleCard({
   const cat = allCategories.find((c) => c.slug === category);
   return (
     <Link
-      href={`/articles#${slug}`}
-      className="card-organic group flex h-full flex-col p-6"
+      href={`/articles/${slug}`}
+      className="card-organic group flex h-full flex-col overflow-hidden"
     >
-      <div className="flex items-center justify-between">
-        <span className="rounded-full bg-leaf-100 px-3 py-1 text-xs font-bold text-forest-700">
+      {/* صورة مصغّرة */}
+      <div className="gradient-flow-deep relative flex aspect-[16/9] items-center justify-center overflow-hidden">
+        <div
+          className="absolute -end-8 -top-8 h-32 w-32 rounded-full bg-gold-500/25 blur-2xl"
+          aria-hidden
+        />
+        <div
+          className="absolute -bottom-10 -start-6 h-32 w-32 rounded-full bg-leaf-400/25 blur-2xl"
+          aria-hidden
+        />
+        <CategoryIcon
+          name={cat?.icon ?? "leaf"}
+          width={64}
+          height={64}
+          className="text-white/80 transition-transform duration-500 group-hover:scale-110"
+        />
+        <span className="absolute bottom-3 start-3 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-forest-800">
           {cat?.title ?? "عام"}
         </span>
-        <span className="flex items-center gap-1 text-xs text-ink-muted">
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-center gap-1 text-xs text-ink-muted">
           <ClockIcon width={14} height={14} />
-          {readMinutes} دقائق
+          {readMinutes} دقائق قراءة
+        </div>
+        <h3 className="mt-2 font-heading text-lg font-bold leading-8 text-forest-900 transition-colors duration-200 group-hover:text-forest-600">
+          {title}
+        </h3>
+        <p className="mt-2 flex-1 text-sm leading-7 text-ink-muted">{excerpt}</p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-gold-600">
+          اقرأ المقال
+          <ArrowLeftIcon
+            width={16}
+            height={16}
+            className="transition-transform duration-300 group-hover:-translate-x-1.5"
+          />
         </span>
       </div>
-      <h3 className="mt-4 font-heading text-lg font-bold leading-8 text-forest-900 transition-colors duration-200 group-hover:text-forest-600">
-        {title}
-      </h3>
-      <p className="mt-2 flex-1 text-sm leading-7 text-ink-muted">{excerpt}</p>
-      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-gold-600">
-        اقرأ المقال
-        <ArrowLeftIcon
-          width={16}
-          height={16}
-          className="transition-transform duration-300 group-hover:-translate-x-1.5"
-        />
-      </span>
     </Link>
   );
 }
 
 export function VideoCard({
+  youtubeId,
   title,
   category,
-  duration,
 }: {
+  youtubeId: string;
   title: string;
   category: string;
-  duration: string;
 }) {
   const cat = allCategories.find((c) => c.slug === category);
   return (
-    <a
-      href={socialLinks.youtube}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="card-organic group block overflow-hidden"
-    >
-      <div className="gradient-flow-deep relative flex aspect-video items-center justify-center">
-        <CategoryIcon
-          name={cat?.icon ?? "leaf"}
-          width={52}
-          height={52}
-          className="text-white/25 transition-transform duration-500 group-hover:scale-110"
+    <div className="card-organic overflow-hidden">
+      <div className="relative aspect-video bg-forest-950">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+          className="absolute inset-0 h-full w-full border-0"
         />
-        <span className="absolute flex h-16 w-16 items-center justify-center rounded-full bg-white/95 text-forest-800 shadow-leaf-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-white">
-          <PlayIcon width={30} height={30} />
-        </span>
-        <span className="absolute bottom-3 start-3 rounded-lg bg-forest-950/70 px-2 py-0.5 text-xs font-semibold text-white backdrop-blur">
-          {duration}
-        </span>
       </div>
       <div className="p-5">
         <span className="rounded-full bg-gold-100 px-3 py-1 text-xs font-bold text-gold-600">
           {cat?.title ?? "عام"}
         </span>
-        <h3 className="mt-3 font-heading font-bold leading-7 text-forest-900 transition-colors duration-200 group-hover:text-forest-600">
+        <h3 className="mt-3 font-heading font-bold leading-7 text-forest-900">
           {title}
         </h3>
       </div>
-    </a>
+    </div>
   );
 }
 

@@ -38,7 +38,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       <section className="gradient-flow relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:text-start">
-            <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-white text-forest-700 shadow-leaf">
+            <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-forest-800 text-white shadow-leaf">
               <CategoryIcon name={category.icon} width={38} height={38} />
             </span>
             <div>
@@ -105,9 +105,9 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             {catVideos.map((video, i) => (
               <Reveal key={video.id} delay={(i % 3) * 0.1}>
                 <VideoCard
+                  youtubeId={video.youtubeId}
                   title={video.title}
                   category={video.category}
-                  duration={video.duration}
                 />
               </Reveal>
             ))}

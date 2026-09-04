@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { categoryGroups, socialLinks, staticLinks } from "@/data/categories";
-import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/icons";
+import {
+  FacebookIcon,
+  InstagramGradientIcon,
+  YoutubeIcon,
+} from "@/components/icons";
 
 export default function Footer() {
   return (
@@ -34,15 +38,33 @@ export default function Footer() {
               مهتم بالأرض والنبات.
             </p>
             <div className="mt-5 flex gap-3">
-              <SocialLink href={socialLinks.youtube} label="قناة يوتيوب">
-                <YoutubeIcon width={20} height={20} />
-              </SocialLink>
-              <SocialLink href={socialLinks.instagram} label="حساب انستغرام">
-                <InstagramIcon width={20} height={20} />
-              </SocialLink>
-              <SocialLink href={socialLinks.facebook} label="صفحة فيسبوك">
-                <FacebookIcon width={20} height={20} />
-              </SocialLink>
+              <a
+                href={socialLinks.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="قناة يوتيوب"
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF0000] text-white transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
+              >
+                <YoutubeIcon width={22} height={22} />
+              </a>
+              <a
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="حساب انستغرام"
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-white transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
+              >
+                <InstagramGradientIcon width={24} height={24} />
+              </a>
+              <a
+                href={socialLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="صفحة فيسبوك"
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1877F2] text-white transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
+              >
+                <FacebookIcon width={22} height={22} />
+              </a>
             </div>
           </div>
 
@@ -86,27 +108,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function SocialLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-leaf-100 transition-all duration-300 hover:-translate-y-1 hover:border-gold-400 hover:bg-gold-500 hover:text-forest-950"
-    >
-      {children}
-    </a>
   );
 }
