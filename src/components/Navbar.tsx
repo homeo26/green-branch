@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -26,6 +27,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [scrolled, setScrolled] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -211,12 +214,16 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* القائمة الجانبية للجوال */}
-      <AnimatePresence>
-        {drawerOpen && (
-          <MobileDrawer pathname={pathname} onClose={() => setDrawerOpen(false)} />
+      {/* القائمة الجانبية للجوال — تُركّب في body لتجنب حصرها داخل ترويسة backdrop-blur */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {drawerOpen && (
+              <MobileDrawer pathname={pathname} onClose={() => setDrawerOpen(false)} />
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </header>
   );
 }
@@ -258,7 +265,7 @@ function MobileDrawer({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-40 bg-forest-950/45 backdrop-blur-[2px] lg:hidden"
+        className="fixed inset-0 z-[90] bg-forest-950/45 backdrop-blur-[2px] lg:hidden"
         onClick={onClose}
         aria-hidden
       />
@@ -268,7 +275,7 @@ function MobileDrawer({
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="fixed inset-y-0 right-0 z-50 flex w-[86%] max-w-sm flex-col overflow-y-auto bg-white shadow-2xl lg:hidden"
+        className="fixed inset-y-0 right-0 z-[100] flex w-[86%] max-w-sm flex-col overflow-y-auto bg-white shadow-2xl lg:hidden"
         role="dialog"
         aria-modal="true"
         aria-label="قائمة التصفح"

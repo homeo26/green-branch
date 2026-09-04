@@ -89,6 +89,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                   excerpt={article.excerpt}
                   category={article.category}
                   readMinutes={article.readMinutes}
+                  thumbnail={article.thumbnail}
                 />
               </Reveal>
             ))}

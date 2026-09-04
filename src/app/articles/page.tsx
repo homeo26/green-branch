@@ -26,6 +26,7 @@ export default function ArticlesPage() {
                 excerpt={article.excerpt}
                 category={article.category}
                 readMinutes={article.readMinutes}
+                thumbnail={article.thumbnail}
               />
             </Reveal>
           ))}

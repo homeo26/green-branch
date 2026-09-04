@@ -19,9 +19,9 @@ export default function HomePage() {
     <>
       <Hero />
       <Pillars />
+      <LatestVideos />
       <Categories />
       <LatestArticles />
-      <LatestVideos />
       <ConsultCta />
     </>
   );
@@ -201,7 +201,7 @@ function Categories() {
 function LatestArticles() {
   const latest = articles.slice(0, 3);
   return (
-    <section className="gradient-flow py-16">
+    <section className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -224,6 +224,7 @@ function LatestArticles() {
                 excerpt={article.excerpt}
                 category={article.category}
                 readMinutes={article.readMinutes}
+                thumbnail={article.thumbnail}
               />
             </Reveal>
           ))}
@@ -237,7 +238,8 @@ function LatestArticles() {
 function LatestVideos() {
   const latest = videos.slice(0, 3);
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section className="gradient-flow py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading
@@ -260,6 +262,7 @@ function LatestVideos() {
             />
           </Reveal>
         ))}
+        </div>
       </div>
     </section>
   );

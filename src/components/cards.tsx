@@ -1,8 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { allCategories } from "@/data/categories";
 import {
   ArrowLeftIcon,
-  CategoryIcon,
   ClockIcon,
 } from "@/components/icons";
 
@@ -12,12 +12,14 @@ export function ArticleCard({
   excerpt,
   category,
   readMinutes,
+  thumbnail,
 }: {
   slug: string;
   title: string;
   excerpt: string;
   category: string;
   readMinutes: number;
+  thumbnail: string;
 }) {
   const cat = allCategories.find((c) => c.slug === category);
   return (
@@ -25,21 +27,18 @@ export function ArticleCard({
       href={`/articles/${slug}`}
       className="card-organic group flex h-full flex-col overflow-hidden"
     >
-      {/* صورة مصغّرة */}
-      <div className="gradient-flow-deep relative flex aspect-[16/9] items-center justify-center overflow-hidden">
-        <div
-          className="absolute -end-8 -top-8 h-32 w-32 rounded-full bg-gold-500/25 blur-2xl"
-          aria-hidden
+      {/* صورة المقال */}
+      <div className="relative aspect-[16/9] overflow-hidden bg-forest-950">
+        <Image
+          src={thumbnail}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div
-          className="absolute -bottom-10 -start-6 h-32 w-32 rounded-full bg-leaf-400/25 blur-2xl"
+          className="absolute inset-0 bg-gradient-to-t from-forest-950/60 via-transparent to-transparent"
           aria-hidden
-        />
-        <CategoryIcon
-          name={cat?.icon ?? "leaf"}
-          width={64}
-          height={64}
-          className="text-white/80 transition-transform duration-500 group-hover:scale-110"
         />
         <span className="absolute bottom-3 start-3 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-forest-800">
           {cat?.title ?? "عام"}

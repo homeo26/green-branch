@@ -8,6 +8,8 @@ export interface Article {
   subcategory?: string;
   readMinutes: number;
   date: string;
+  /** صورة المقال */
+  thumbnail: string;
   /** فقرات المقال — ستُدار من لوحة التحكم لاحقًا */
   body: string[];
 }
@@ -25,6 +27,7 @@ export interface Video {
 export const articles: Article[] = [
   {
     slug: "grape-pruning-winter",
+    thumbnail: "https://i.ytimg.com/vi/9HryAO1RdSc/hqdefault.jpg",
     title: "التقليم الشتوي للعنب: خطوة بخطوة نحو موسم مثمر",
     excerpt:
       "دليل عملي مفصّل لتقليم كرمة العنب في الشتاء، مع أهم القواعد التي تضمن نموًا متوازنًا وإنتاجًا وفيرًا.",
@@ -41,6 +44,7 @@ export const articles: Article[] = [
   },
   {
     slug: "fig-tree-care-summer",
+    thumbnail: "https://i.ytimg.com/vi/B3Nhqf85imw/hqdefault.jpg",
     title: "العناية بأشجار التين في الصيف: الري والتسميد الصحيح",
     excerpt:
       "كيف تحافظ على أشجار التين خلال أشهر الحر؟ جدول الري الأمثل وأخطاء شائعة يجب تجنبها.",
@@ -57,6 +61,7 @@ export const articles: Article[] = [
   },
   {
     slug: "citrus-leaf-yellowing",
+    thumbnail: "https://i.ytimg.com/vi/aNTRT00UQD8/hqdefault.jpg",
     title: "اصفرار أوراق الحمضيات: الأسباب والعلاج الفعّال",
     excerpt:
       "تشخيص دقيق لأسباب اصفرار أوراق الليمون والبرتقال، من نقص العناصر إلى مشاكل الجذور.",
@@ -73,6 +78,7 @@ export const articles: Article[] = [
   },
   {
     slug: "npk-fertilization-guide",
+    thumbnail: "https://i.ytimg.com/vi/aOCz7eHOmvE/hqdefault.jpg",
     title: "دليل التسميد المتوازن: متى وكيف تستخدم NPK؟",
     excerpt:
       "فهم العناصر الكبرى الثلاثة ودورها في حياة النبات، مع برنامج تسميد موسمي جاهز للتطبيق.",
@@ -89,6 +95,7 @@ export const articles: Article[] = [
   },
   {
     slug: "fruit-set-techniques",
+    thumbnail: "https://i.ytimg.com/vi/2-aU6KkK4-I/hqdefault.jpg",
     title: "5 تقنيات مجرّبة لزيادة عقد الثمار وتحسين الجودة",
     excerpt:
       "من الخف اليدوي إلى التحليق: تقنيات عملية يستخدمها المزارعون المحترفون لرفع الإنتاجية.",
@@ -105,6 +112,7 @@ export const articles: Article[] = [
   },
   {
     slug: "ipm-basics",
+    thumbnail: "https://i.ytimg.com/vi/-6E1JMhKRkc/hqdefault.jpg",
     title: "المكافحة المتكاملة للآفات: حماية محصولك بأقل المبيدات",
     excerpt:
       "استراتيجية شاملة تجمع بين الوقاية والمراقبة والتدخل الذكي لحماية مزرعتك وصحة أسرتك.",
