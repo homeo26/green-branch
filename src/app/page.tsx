@@ -34,7 +34,18 @@ function Hero() {
       <DriftingLeaves />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-40 pt-6 sm:px-6 sm:pb-48 md:pb-56 lg:grid-cols-2 lg:px-8 lg:pt-10">
-        <Reveal>
+        <Reveal className="text-center lg:text-start">
+          {/* الشعار على الجوال */}
+          <div className="mb-5 flex justify-center lg:hidden">
+            <Image
+              src="/brand/logo.png"
+              alt="شعار الغصن الأخضر"
+              width={150}
+              height={153}
+              priority
+              className="animate-float h-auto w-[130px] drop-shadow-[0_14px_28px_rgb(29_74_52/0.22)] sm:w-[150px]"
+            />
+          </div>
           <h1 className="whitespace-nowrap font-heading text-[clamp(1.6rem,5.4vw,3rem)] font-extrabold leading-[1.5] text-forest-900">
             ازرع بثقة مع{" "}
             <span className="text-gradient-green">الغصن الأخضر</span>
@@ -53,16 +64,22 @@ function Hero() {
               className="text-gold-600"
             />
           </p>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-ink-muted">
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-ink-muted lg:mx-0">
             محتوى شامل وموثوق يجمع المقالات الإرشادية ومقاطع الفيديو التعليمية
             والنصائح العملية في كل ما يخص الزراعة.
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/articles" className="btn btn-primary btn-sheen px-7 py-3.5">
+          <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap sm:gap-4">
+            <Link
+              href="/articles"
+              className="btn btn-primary btn-sheen w-full px-7 py-4 sm:w-auto sm:py-3.5"
+            >
               <BookIcon width={20} height={20} />
               تصفّح المقالات
             </Link>
-            <Link href="/videos" className="btn btn-outline px-7 py-3.5">
+            <Link
+              href="/videos"
+              className="btn btn-outline w-full px-7 py-4 sm:w-auto sm:py-3.5"
+            >
               <PlayIcon width={20} height={20} />
               مكتبة الفيديو
             </Link>
@@ -71,7 +88,7 @@ function Hero() {
             href={socialLinks.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-sheen mt-6 bg-[#FF0000] px-6 py-3 text-sm text-white shadow-[0_8px_24px_-8px_rgb(255_0_0/0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#cc0000]"
+            className="btn btn-sheen mt-3 w-full bg-[#FF0000] px-6 py-4 text-sm text-white shadow-[0_8px_24px_-8px_rgb(255_0_0/0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#cc0000] sm:mt-6 sm:w-auto sm:py-3"
           >
             <YoutubeIcon width={22} height={22} />
             تابعنا على يوتيوب — قناة الغصن الأخضر

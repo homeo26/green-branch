@@ -77,7 +77,7 @@ export default function Navbar() {
         {/* الشعار */}
         <Link
           href="/"
-          className="order-2 flex shrink-0 items-center gap-2.5 transition-transform duration-200 hover:scale-105 lg:order-1"
+          className="order-2 flex flex-1 shrink-0 items-center justify-center gap-2.5 transition-transform duration-200 hover:scale-105 lg:order-1 lg:flex-none lg:justify-start"
           aria-label="الغصن الأخضر — الصفحة الرئيسية"
         >
           <Image
@@ -101,7 +101,7 @@ export default function Navbar() {
         </Link>
 
         {/* روابط سطح المكتب */}
-        <div className="order-2 hidden items-center gap-1 lg:flex">
+        <div className="hidden items-center gap-1 lg:order-2 lg:flex">
           <NavItem href="/" active={pathname === "/"}>
             الرئيسية
           </NavItem>
@@ -192,26 +192,26 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="order-1 flex items-center gap-3 lg:order-3">
-          <Link
-            href="/contact"
-            className="btn btn-primary btn-sheen hidden px-5 py-2.5 text-sm lg:inline-flex"
-          >
-            <WhatsAppIcon width={18} height={18} />
-            اطلب استشارة
-          </Link>
+        {/* زر القائمة للجوال — على اليمين */}
+        <button
+          type="button"
+          className="order-1 flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-border-soft text-forest-800 transition-colors duration-200 hover:bg-leaf-50 lg:hidden"
+          aria-label="فتح القائمة"
+          aria-expanded={drawerOpen}
+          onClick={() => setDrawerOpen(true)}
+        >
+          <MenuIcon />
+        </button>
 
-          {/* زر القائمة للجوال */}
-          <button
-            type="button"
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-border-soft text-forest-800 transition-colors duration-200 hover:bg-leaf-50 lg:hidden"
-            aria-label="فتح القائمة"
-            aria-expanded={drawerOpen}
-            onClick={() => setDrawerOpen(true)}
-          >
-            <MenuIcon />
-          </button>
-        </div>
+        <Link
+          href="/contact"
+          className="btn btn-primary btn-sheen hidden px-5 py-2.5 text-sm lg:order-3 lg:inline-flex"
+        >
+          <WhatsAppIcon width={18} height={18} />
+          اطلب استشارة
+        </Link>
+        {/* موازن يحفظ الشعار في المنتصف على الجوال */}
+        <span className="order-3 h-11 w-11 shrink-0 lg:hidden" aria-hidden />
       </nav>
 
       {/* القائمة الجانبية للجوال — تُركّب في body لتجنب حصرها داخل ترويسة backdrop-blur */}
