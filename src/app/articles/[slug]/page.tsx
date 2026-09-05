@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getAllArticles, getArticleBySlug } from "@/lib/articles-store";
 import { allCategories } from "@/data/categories";
 import ShareButton from "@/components/ShareButton";
+import FadeIn from "@/components/FadeIn";
 import { ArrowLeftIcon, CategoryIcon, ClockIcon } from "@/components/icons";
 
 interface Props {
@@ -50,7 +51,7 @@ export default async function ArticlePage({ params }: Props) {
           className="pointer-events-none absolute -end-16 -top-16 h-64 w-64 rounded-full bg-gold-500/20 blur-3xl"
           aria-hidden
         />
-        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <FadeIn className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
           {cat && (
             <Link
               href={`/category/${cat.slug}`}
@@ -70,12 +71,12 @@ export default async function ArticlePage({ params }: Props) {
             </span>
             <span>{new Date(article.date).toLocaleDateString("ar-EG")}</span>
           </div>
-        </div>
+        </FadeIn>
       </section>
 
       {/* صورة المقال */}
       {article.thumbnail && (
-        <div className="mx-auto -mt-8 max-w-3xl px-4 sm:px-6 lg:px-8">
+        <FadeIn delay={0.08} className="mx-auto -mt-8 max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-border-soft shadow-leaf-lg">
             <Image
               src={article.thumbnail}
@@ -86,11 +87,11 @@ export default async function ArticlePage({ params }: Props) {
               priority
             />
           </div>
-        </div>
+        </FadeIn>
       )}
 
       {/* محتوى المقال */}
-      <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      <FadeIn delay={0.16} className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <p className="text-lg font-semibold leading-9 text-forest-800">
           {article.excerpt}
         </p>
@@ -122,7 +123,7 @@ export default async function ArticlePage({ params }: Props) {
             </Link>
           )}
         </div>
-      </section>
+      </FadeIn>
     </article>
   );
 }

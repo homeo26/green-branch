@@ -7,6 +7,7 @@ import { allCategories, getCategory } from "@/data/categories";
 import { videos } from "@/data/content";
 import { getArticlesByCategory } from "@/lib/articles-store";
 import { CategoryIcon } from "@/components/icons";
+import FadeIn from "@/components/FadeIn";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -39,7 +40,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   return (
     <>
       <section className="gradient-flow relative overflow-hidden">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <FadeIn className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:text-start">
             <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-forest-800 text-white shadow-leaf">
               <CategoryIcon name={category.icon} width={38} height={38} />
@@ -75,7 +76,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               </SubChip>
             ))}
           </nav>
-        </div>
+        </FadeIn>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">

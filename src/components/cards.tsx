@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import FadeIn from "@/components/FadeIn";
 import { allCategories } from "@/data/categories";
 import {
   ArrowLeftIcon,
@@ -114,14 +115,14 @@ export function PageHero({
         className="pointer-events-none absolute -start-24 -top-24 h-72 w-72 rounded-full bg-leaf-400/15 blur-3xl"
         aria-hidden
       />
-      <div className="mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 lg:px-8">
+      <FadeIn className="mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 lg:px-8">
         <h1 className="font-heading text-3xl font-extrabold text-forest-900 sm:text-4xl">
           {title}
         </h1>
         <p className="mx-auto mt-4 max-w-2xl leading-8 text-ink-muted">
           {subtitle}
         </p>
-      </div>
+      </FadeIn>
     </section>
   );
 }
