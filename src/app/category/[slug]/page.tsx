@@ -4,13 +4,16 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/Waves";
 import { ArticleCard, VideoCard } from "@/components/cards";
 import { allCategories, getCategory } from "@/data/categories";
-import { articles, videos } from "@/data/content";
+import { videos } from "@/data/content";
+import { getArticlesByCategory } from "@/lib/articles-store";
 import { CategoryIcon } from "@/components/icons";
 
 interface Props {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ sub?: string }>;
 }
+
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return allCategories.map((cat) => ({ slug: cat.slug }));
@@ -29,7 +32,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const category = getCategory(slug);
   if (!category) notFound();
 
-  const catArticles = articles.filter((a) => a.category === category.slug);
+  const catArticles = await getArticlesByCategory(category.slug);
   const catVideos = videos.filter((v) => v.category === category.slug);
   const activeSub = category.subcategories.find((s) => s.slug === sub);
 

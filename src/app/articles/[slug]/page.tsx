@@ -1,28 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { articles, getArticle } from "@/data/content";
+import { getAllArticles, getArticleBySlug } from "@/lib/articles-store";
 import { allCategories } from "@/data/categories";
+import ShareButton from "@/components/ShareButton";
 import { ArrowLeftIcon, CategoryIcon, ClockIcon } from "@/components/icons";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
+/** تحديث الصفحة كل دقيقة لتظهر تعديلات لوحة التحكم */
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const articles = await getAllArticles();
   return articles.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) return {};
-  return { title: article.title, description: article.excerpt };
+  return {
+    title: article.title,
+    description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      type: "article",
+      images: article.thumbnail ? [article.thumbnail] : undefined,
+    },
+  };
 }
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
   const cat = allCategories.find((c) => c.slug === article.category);
@@ -58,6 +73,22 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       </section>
 
+      {/* صورة المقال */}
+      {article.thumbnail && (
+        <div className="mx-auto -mt-8 max-w-3xl px-4 sm:px-6 lg:px-8">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-border-soft shadow-leaf-lg">
+            <Image
+              src={article.thumbnail}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+      )}
+
       {/* محتوى المقال */}
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <p className="text-lg font-semibold leading-9 text-forest-800">
@@ -71,7 +102,12 @@ export default async function ArticlePage({ params }: Props) {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border-soft pt-8">
+        {/* مشاركة المقال */}
+        <div className="mt-10 rounded-2xl border border-border-soft bg-leaf-50/60 p-5">
+          <ShareButton title={article.title} path={`/articles/${article.slug}`} />
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-border-soft pt-8">
           <Link href="/articles" className="btn btn-outline px-6 py-2.5 text-sm">
             <ArrowLeftIcon width={16} height={16} className="rotate-180" />
             كل المقالات

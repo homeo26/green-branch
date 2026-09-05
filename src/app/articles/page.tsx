@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/Waves";
 import { ArticleCard, PageHero } from "@/components/cards";
-import { articles } from "@/data/content";
+import { getAllArticles } from "@/lib/articles-store";
 
 export const metadata: Metadata = {
   title: "مركز المقالات والدلائل",
@@ -9,7 +9,10 @@ export const metadata: Metadata = {
     "مقالات إرشادية مفصّلة وشاملة تغطي كل الموضوعات الزراعية بأسلوب سهل وسلس.",
 };
 
-export default function ArticlesPage() {
+export const revalidate = 60;
+
+export default async function ArticlesPage() {
+  const articles = await getAllArticles();
   return (
     <>
       <PageHero

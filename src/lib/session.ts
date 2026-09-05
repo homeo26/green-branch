@@ -1,0 +1,16 @@
+import "server-only";
+import { cookies } from "next/headers";
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/session-token";
+
+/** البريد الإلكتروني للجلسة الحالية أو null */
+export async function currentAdminEmail(): Promise<string | null> {
+  const store = await cookies();
+  return verifySessionToken(store.get(SESSION_COOKIE)?.value);
+}
+
+/** يرمي خطأ 401 إن لم توجد جلسة — للاستخدام في مسارات الـ API */
+export async function requireAdmin(): Promise<string> {
+  const email = await currentAdminEmail();
+  if (!email) throw new Response("غير مصرّح", { status: 401 });
+  return email;
+}

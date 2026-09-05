@@ -1,5 +1,24 @@
 import type { NextConfig } from "next";
 
+/** السماح بصور R2 العامة (r2.dev أو نطاق مخصص من متغيرات البيئة) */
+function r2Patterns() {
+  const patterns: { protocol: "https"; hostname: string; pathname: string }[] = [
+    { protocol: "https", hostname: "**.r2.dev", pathname: "/**" },
+  ];
+  const custom = process.env.R2_PUBLIC_BASE_URL;
+  if (custom) {
+    try {
+      const { hostname } = new URL(custom);
+      if (hostname && !hostname.endsWith(".r2.dev")) {
+        patterns.push({ protocol: "https", hostname, pathname: "/**" });
+      }
+    } catch {
+      /* رابط غير صالح — نتجاهله */
+    }
+  }
+  return patterns;
+}
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
@@ -9,6 +28,7 @@ const nextConfig: NextConfig = {
         hostname: "i.ytimg.com",
         pathname: "/vi/**",
       },
+      ...r2Patterns(),
     ],
   },
 };

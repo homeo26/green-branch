@@ -3,7 +3,8 @@ import Image from "next/image";
 import Waves, { BreathingWords, DriftingLeaves, Reveal } from "@/components/Waves";
 import { ArticleCard, VideoCard } from "@/components/cards";
 import { allCategories, socialLinks } from "@/data/categories";
-import { articles, videos } from "@/data/content";
+import { videos } from "@/data/content";
+import { getAllArticles } from "@/lib/articles-store";
 import {
   ArrowLeftIcon,
   BookIcon,
@@ -13,6 +14,8 @@ import {
   WhatsAppIcon,
   YoutubeIcon,
 } from "@/components/icons";
+
+export const revalidate = 60;
 
 export default function HomePage() {
   return (
@@ -207,8 +210,9 @@ function Categories() {
 }
 
 /* ─────────────── أحدث المقالات ─────────────── */
-function LatestArticles() {
-  const latest = articles.slice(0, 3);
+async function LatestArticles() {
+  const all = await getAllArticles();
+  const latest = all.slice(0, 3);
   return (
     <section className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

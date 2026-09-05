@@ -7,10 +7,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "hash-password": "node scripts/hash-password.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.716.0",
     "framer-motion": "12.23.6",
+    "jose": "^5.9.6",
     "next": "15.5.25",
     "react": "19.2.8",
     "react-dom": "19.2.8"
