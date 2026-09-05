@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-/** السماح بصور R2 العامة (r2.dev أو نطاق مخصص من متغيرات البيئة) */
+/** Allow public R2 images (r2.dev or a custom domain from env) */
 function r2Patterns() {
   const patterns: { protocol: "https"; hostname: string; pathname: string }[] = [
     { protocol: "https", hostname: "**.r2.dev", pathname: "/**" },
@@ -13,7 +13,7 @@ function r2Patterns() {
         patterns.push({ protocol: "https", hostname, pathname: "/**" });
       }
     } catch {
-      /* رابط غير صالح — نتجاهله */
+      /* invalid URL - ignore */
     }
   }
   return patterns;

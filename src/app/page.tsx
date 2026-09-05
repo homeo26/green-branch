@@ -30,7 +30,7 @@ export default function HomePage() {
   );
 }
 
-/* ─────────────── قسم البطل: خلفية خضراء متموجة ─────────────── */
+/* ─────────────── Hero: green wave backdrop ─────────────── */
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(160deg,#eaf7ef_0%,#ffffff_50%,#f6ecdf_100%)]">
@@ -38,7 +38,7 @@ function Hero() {
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-40 pt-6 sm:px-6 sm:pb-48 md:pb-56 lg:grid-cols-2 lg:px-8 lg:pt-10">
         <Reveal className="text-center lg:text-start">
-          {/* الشعار على الجوال */}
+          {/* logo on mobile */}
           <div className="mb-5 flex justify-center lg:hidden">
             <Image
               src="/brand/logo.png"
@@ -117,7 +117,7 @@ function Hero() {
   );
 }
 
-/* ─────────────── أقسام المنصة الثلاثة ─────────────── */
+/* ─────────────── The three platform pillars ─────────────── */
 const pillars = [
   {
     href: "/articles",
@@ -175,7 +175,7 @@ function Pillars() {
   );
 }
 
-/* ─────────────── التصنيفات ─────────────── */
+/* ─────────────── Categories ─────────────── */
 function Categories() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -209,7 +209,7 @@ function Categories() {
   );
 }
 
-/* ─────────────── أحدث المقالات ─────────────── */
+/* ─────────────── Latest articles ─────────────── */
 async function LatestArticles() {
   const all = await getAllArticles();
   const latest = all.slice(0, 3);
@@ -247,7 +247,7 @@ async function LatestArticles() {
   );
 }
 
-/* ─────────────── أحدث الفيديوهات ─────────────── */
+/* ─────────────── Latest videos ─────────────── */
 function LatestVideos() {
   const latest = videos.slice(0, 3);
   return (
@@ -281,7 +281,7 @@ function LatestVideos() {
   );
 }
 
-/* ─────────────── دعوة للاستشارة ─────────────── */
+/* ─────────────── Consultation call to action ─────────────── */
 function ConsultCta() {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">

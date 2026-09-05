@@ -12,7 +12,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-/** تحديث الصفحة كل دقيقة لتظهر تعديلات لوحة التحكم */
+/** Revalidate every minute so admin edits appear */
 export const revalidate = 60;
 
 export async function generateStaticParams() {
@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <article>
-      {/* ترويسة المقال */}
+      {/* article header */}
       <section className="gradient-flow-deep relative overflow-hidden">
         <div
           className="pointer-events-none absolute -end-16 -top-16 h-64 w-64 rounded-full bg-gold-500/20 blur-3xl"
@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: Props) {
         </FadeIn>
       </section>
 
-      {/* صورة المقال */}
+      {/* article image */}
       {article.thumbnail && (
         <FadeIn delay={0.08} className="mx-auto -mt-8 max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-border-soft shadow-leaf-lg">
@@ -90,7 +90,7 @@ export default async function ArticlePage({ params }: Props) {
         </FadeIn>
       )}
 
-      {/* محتوى المقال */}
+      {/* article body */}
       <FadeIn delay={0.16} className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <p className="text-lg font-semibold leading-9 text-forest-800">
           {article.excerpt}
@@ -103,7 +103,7 @@ export default async function ArticlePage({ params }: Props) {
           ))}
         </div>
 
-        {/* مشاركة المقال */}
+        {/* share the article */}
         <div className="mt-10 rounded-2xl border border-border-soft bg-leaf-50/60 p-5">
           <ShareButton title={article.title} path={`/articles/${article.slug}`} />
         </div>

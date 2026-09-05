@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 /**
- * موجات خضراء عريضة بتعبئة متدرجة — منحنيات جيبية متناظرة
- * (القمة بعمق القاع نفسه) تنزلق ببطء مع تموّج عمودي ناعم.
+ * Wide green waves with gradient fills - symmetric sine curves
+ * (crest as deep as trough) drifting slowly with a soft vertical bob.
  */
 
-/* منحنى جيبي متناظر: يبدأ وينتهي عند نفس النقطة للتكرار السلس */
+/* Symmetric sine path: starts and ends at the same point so it tiles seamlessly */
 const SINE_FRONT =
   "M0,130 C120,40 240,40 360,130 C480,220 600,220 720,130 C840,40 960,40 1080,130 C1200,220 1320,220 1440,130 L1440,320 L0,320 Z";
 const SINE_BACK =
@@ -86,7 +86,7 @@ function WaveLayer({
   );
 }
 
-/** عنصر يظهر بحركة ناعمة عند دخوله نطاق الرؤية */
+/** Element that eases in when it scrolls into view */
 export function Reveal({
   children,
   delay = 0,
@@ -110,7 +110,7 @@ export function Reveal({
   );
 }
 
-/** كلمات متبدّلة بتأثير "تنفّس" ناعم */
+/** Rotating words with a soft breathing effect */
 export function BreathingWords({
   words,
   className = "",
@@ -143,7 +143,7 @@ export function BreathingWords({
   );
 }
 
-/* ورقة نبات صغيرة للأوراق الطائرة */
+/* Small leaf used for the drifting leaves */
 function Leaf({ color = "#2f7d54" }: { color?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill={color} className="h-full w-full" aria-hidden>
@@ -159,7 +159,7 @@ function Leaf({ color = "#2f7d54" }: { color?: string }) {
   );
 }
 
-/** أوراق صغيرة تنجرف مع الريح عبر المشهد */
+/** Small leaves drifting across the scene on the breeze */
 export function DriftingLeaves() {
   const reduce = useReducedMotion();
   if (reduce) return null;

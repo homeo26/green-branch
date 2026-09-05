@@ -145,7 +145,7 @@ export default function ArticleEditor({ article, storageReady }: Props) {
       )}
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* المحتوى */}
+        {/* content */}
         <div className="lg:col-span-2">
           <div className="card-organic p-6">
             <Field label="عنوان المقال" htmlFor="title">
@@ -189,7 +189,7 @@ export default function ArticleEditor({ article, storageReady }: Props) {
           </div>
         </div>
 
-        {/* الإعدادات */}
+        {/* settings */}
         <div className="space-y-6">
           <div className="card-organic p-6">
             <h3 className="font-heading font-bold text-forest-900">صورة المقال</h3>
@@ -354,7 +354,7 @@ function ShareLinkButton({ path, title }: { path: string; title: string }) {
         await navigator.share({ title, url });
         return;
       } catch {
-        /* أُلغيت المشاركة — نكمل بالنسخ */
+        /* share dismissed - fall through to copying */
       }
     }
     await navigator.clipboard.writeText(url);

@@ -1,6 +1,6 @@
 /**
- * مخزن المقالات: يقرأ ويكتب المقالات في Cloudflare R2،
- * ويعود للمحتوى المبدئي (seed) إن لم تكن إعدادات R2 مضبوطة.
+ * Article store: reads and writes articles in Cloudflare R2,
+ * falling back to the seed content when R2 is not configured.
  */
 import "server-only";
 import type { Article } from "@/data/content";
@@ -9,12 +9,12 @@ import { getText, isR2Configured, putText } from "@/lib/r2";
 
 const ARTICLES_KEY = "content/articles.json";
 
-/** ترتيب من الأحدث إلى الأقدم */
+/** Sort newest first */
 function sortByDateDesc(list: Article[]): Article[] {
   return [...list].sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-/** كل المقالات — من R2 إن توفّرت، وإلا المحتوى المبدئي */
+/** All articles - from R2 when available, otherwise the seed content */
 export async function getAllArticles(): Promise<Article[]> {
   if (!isR2Configured()) return sortByDateDesc(seedArticles);
   try {
@@ -26,14 +26,14 @@ export async function getAllArticles(): Promise<Article[]> {
     }
     return sortByDateDesc(parsed);
   } catch (error) {
-    console.error("تعذّر قراءة المقالات من R2، سيتم استخدام المحتوى المبدئي", error);
+    console.error("تعذّر قراءة المقالات من R2، سيتم استخدام content المبدئي", error);
     return sortByDateDesc(seedArticles);
   }
 }
 
 /**
- * البحث بالمعرّف مع مراعاة ترميز الروابط: تمرّر Next.js مقاطع المسار
- * مُرمّزة (percent-encoded)، والمعرّفات العربية تُخزَّن غير مُرمّزة.
+ * Look up by slug in an encoding-safe way: Next.js passes route segments
+ * percent-encoded, while Arabic slugs are stored decoded.
  */
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const all = await getAllArticles();
@@ -41,12 +41,12 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   try {
     candidates.add(decodeURIComponent(slug));
   } catch {
-    /* مقطع غير صالح للفك — نتجاهله */
+    /* not decodable - ignore */
   }
   try {
     candidates.add(encodeURIComponent(slug));
   } catch {
-    /* تجاهل */
+    /* ignore */
   }
   return all.find((a) => candidates.has(a.slug)) ?? null;
 }
@@ -58,7 +58,7 @@ export async function getArticlesByCategory(
   return all.filter((a) => a.category === categorySlug);
 }
 
-/** المقالات المخزّنة فعليًا في R2 (بدون العودة للمحتوى المبدئي) */
+/** Articles actually stored in R2 (no seed fallback) */
 async function readStored(): Promise<Article[]> {
   const raw = await getText(ARTICLES_KEY);
   if (!raw) return [];
@@ -75,8 +75,8 @@ async function writeStored(list: Article[]): Promise<void> {
 }
 
 /**
- * أول كتابة: ننسخ المحتوى المبدئي إلى R2 حتى لا تختفي المقالات
- * التجريبية عند إضافة أول مقال حقيقي.
+ * First write: copy the seed content into R2 so the sample articles
+ * do not vanish when the first real article is published.
  */
 async function readStoredOrSeed(): Promise<Article[]> {
   const stored = await readStored();
@@ -97,7 +97,7 @@ export async function deleteArticle(slug: string): Promise<void> {
   await writeStored(list.filter((a) => a.slug !== slug));
 }
 
-/** تحويل عنوان عربي أو إنجليزي إلى معرّف صالح للرابط */
+/** Turn an Arabic or English title into a URL-safe slug */
 export function slugify(input: string): string {
   return input
     .trim()
@@ -108,7 +108,7 @@ export function slugify(input: string): string {
     .replace(/^-|-$/g, "");
 }
 
-/** تقدير زمن القراءة بالدقائق (≈ 200 كلمة/دقيقة) */
+/** Estimate reading time in minutes (~200 words per minute) */
 export function estimateReadMinutes(body: string[]): number {
   const words = body.join(" ").trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));

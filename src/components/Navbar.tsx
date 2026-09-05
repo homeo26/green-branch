@@ -15,7 +15,7 @@ import {
   WhatsAppIcon,
 } from "@/components/icons";
 
-/** هل المسار الحالي يقع ضمن هذه المجموعة؟ */
+/** Does the current path belong to this group? */
 function isGroupActive(pathname: string, groupSlug: string): boolean {
   if (!pathname.startsWith("/category/")) return false;
   const slug = pathname.split("/")[2];
@@ -39,13 +39,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* إغلاق القوائم عند التنقل */
+  /* close menus on navigation */
   useEffect(() => {
     setOpenGroup(null);
     setDrawerOpen(false);
   }, [pathname]);
 
-  /* قفل تمرير الصفحة عند فتح القائمة الجانبية */
+  /* lock page scroll while the drawer is open */
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
     return () => {
@@ -74,7 +74,7 @@ export default function Navbar() {
         aria-label="القائمة الرئيسية"
         className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8"
       >
-        {/* الشعار */}
+        {/* logo */}
         <Link
           href="/"
           className="order-2 flex flex-1 shrink-0 items-center justify-center gap-2.5 transition-transform duration-200 hover:scale-105 lg:order-1 lg:flex-none lg:justify-start"
@@ -101,7 +101,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* روابط سطح المكتب */}
+        {/* desktop links */}
         <div className="hidden items-center gap-1 lg:order-2 lg:flex">
           <NavItem href="/" active={pathname === "/"}>
             الرئيسية
@@ -193,7 +193,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* زر القائمة للجوال — على اليمين */}
+        {/* mobile menu button - right edge */}
         <button
           type="button"
           className="order-1 flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-border-soft text-forest-800 transition-colors duration-200 hover:bg-leaf-50 lg:hidden"
@@ -211,11 +211,11 @@ export default function Navbar() {
           <WhatsAppIcon width={18} height={18} />
           اطلب استشارة
         </Link>
-        {/* موازن يحفظ الشعار في المنتصف على الجوال */}
+        {/* spacer that keeps the logo optically centred on mobile */}
         <span className="order-3 h-11 w-11 shrink-0 lg:hidden" aria-hidden />
       </nav>
 
-      {/* القائمة الجانبية للجوال — تُركّب في body لتجنب حصرها داخل ترويسة backdrop-blur */}
+      {/* Mobile drawer - portalled into body so the backdrop-blur header cannot trap it */}
       {mounted &&
         createPortal(
           <AnimatePresence>
@@ -270,7 +270,7 @@ function MobileDrawer({
         onClick={onClose}
         aria-hidden
       />
-      {/* تنزلق من اليمين — مناسبة للغة العربية */}
+      {/* slides in from the right, matching RTL reading order */}
       <motion.aside
         initial={{ x: "100%" }}
         animate={{ x: 0 }}

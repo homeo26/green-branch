@@ -8,22 +8,22 @@ export interface Article {
   subcategory?: string;
   readMinutes: number;
   date: string;
-  /** صورة المقال */
+  /** article image */
   thumbnail: string;
-  /** فقرات المقال — ستُدار من لوحة التحكم لاحقًا */
+  /** Article paragraphs - managed from the admin portal */
   body: string[];
 }
 
 export interface Video {
   id: string;
-  /** معرّف فيديو يوتيوب للتضمين */
+  /** YouTube video id used for embedding */
   youtubeId: string;
   title: string;
   category: string;
   date: string;
 }
 
-/** مقالات تجريبية — ستُستبدل بمحتوى لوحة التحكم لاحقًا */
+/** Seed articles - replaced by admin-authored content */
 export const articles: Article[] = [
   {
     slug: "grape-pruning-winter",
@@ -129,7 +129,7 @@ export const articles: Article[] = [
   },
 ];
 
-/** فيديوهات من قناة الغصن الأخضر على يوتيوب */
+/** Videos from the Green Branch YouTube channel */
 export const videos: Video[] = [
   {
     id: "v1",

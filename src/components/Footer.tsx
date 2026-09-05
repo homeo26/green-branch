@@ -10,7 +10,7 @@ import {
 export default function Footer() {
   return (
     <footer className="gradient-flow-deep relative mt-24 text-leaf-50">
-      {/* موجة علوية فاصلة */}
+      {/* top wave divider */}
       <svg
         viewBox="0 0 1440 80"
         preserveAspectRatio="none"

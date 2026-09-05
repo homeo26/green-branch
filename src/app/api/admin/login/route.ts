@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   }
 
   if (!checkCredentials(email, password)) {
-    // تأخير بسيط لإبطاء محاولات التخمين
+    // small delay to slow down brute-force attempts
     await new Promise((resolve) => setTimeout(resolve, 600));
     return NextResponse.json(
       { error: "بيانات الدخول غير صحيحة" },

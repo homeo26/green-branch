@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * توليد لبد كلمة مرور المشرف.
- * الاستخدام:  node scripts/hash-password.mjs "كلمة-المرور"
+ * Generate the admin password hash.
+ * Usage: node scripts/hash-password.mjs "your-password"
  */
 import { randomBytes, scryptSync } from "node:crypto";
 

@@ -13,7 +13,7 @@ export default function ContactForm() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
-    /* لاحقًا: يُرسل إلى واجهة برمجية تُدار من لوحة التحكم */
+    /* later: submit to an API managed from the admin portal */
     setTimeout(() => setStatus("sent"), 900);
   }
 

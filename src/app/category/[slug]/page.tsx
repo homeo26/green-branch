@@ -58,7 +58,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             </div>
           </div>
 
-          {/* التصنيفات الفرعية */}
+          {/* subcategories */}
           <nav
             aria-label="التصنيفات الفرعية"
             className="mt-8 flex flex-wrap justify-center gap-2 sm:justify-start"

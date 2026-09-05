@@ -1,6 +1,6 @@
 /**
- * جلسات لوحة التحكم — متوافقة مع بيئة Edge (jose فقط، بلا node:crypto)
- * حتى تعمل داخل middleware.
+ * Admin sessions - Edge-compatible (jose only, no node:crypto)
+ * so it can run inside middleware.
  */
 import { SignJWT, jwtVerify } from "jose";
 
@@ -15,7 +15,7 @@ function secretKey(): Uint8Array {
   return new TextEncoder().encode(secret);
 }
 
-/** إنشاء رمز جلسة موقّع */
+/** Create a signed session token */
 export async function createSessionToken(email: string): Promise<string> {
   return new SignJWT({ email, role: "admin" })
     .setProtectedHeader({ alg: "HS256" })
@@ -24,7 +24,7 @@ export async function createSessionToken(email: string): Promise<string> {
     .sign(secretKey());
 }
 
-/** التحقق من رمز الجلسة؛ يُعيد البريد أو null */
+/** Verify a session token; returns the email or null */
 export async function verifySessionToken(
   token: string | undefined
 ): Promise<string | null> {

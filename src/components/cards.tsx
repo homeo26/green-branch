@@ -28,7 +28,7 @@ export function ArticleCard({
       href={`/articles/${slug}`}
       className="card-organic group flex h-full flex-col overflow-hidden"
     >
-      {/* صورة المقال */}
+      {/* article image */}
       <div className="relative aspect-[16/9] overflow-hidden bg-forest-950">
         <Image
           src={thumbnail}

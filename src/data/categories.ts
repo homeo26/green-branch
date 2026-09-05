@@ -1,8 +1,8 @@
 /**
- * التصنيفات — مصدر البيانات الموحّد للموقع.
- * يغذّي: القائمة العلوية (قوائم منسدلة)، القائمة الجانبية للجوال،
- * صفحات التصنيفات، ومركز المقالات.
- * لاحقًا ستُدار هذه البيانات من لوحة التحكم (Admin).
+ * Categories - the single source of truth for the site.
+ * Feeds: the top navigation dropdowns, the mobile drawer,
+ * the category pages and the articles hub.
+ * This will move into the admin portal later.
  */
 
 export interface SubCategory {
@@ -14,7 +14,7 @@ export interface Category {
   slug: string;
   title: string;
   description: string;
-  /** اسم أيقونة SVG معرّفة في components/icons.tsx */
+  /** name of an SVG icon defined in components/icons.tsx */
   icon: string;
   subcategories: SubCategory[];
 }
@@ -25,7 +25,7 @@ export interface CategoryGroup {
   categories: Category[];
 }
 
-/** مجموعات التصنيفات — كل مجموعة تظهر كقائمة منسدلة في الشريط العلوي */
+/** Category groups - each renders as a dropdown in the top bar */
 export const categoryGroups: CategoryGroup[] = [
   {
     slug: "crops",
@@ -121,21 +121,21 @@ export const categoryGroups: CategoryGroup[] = [
   },
 ];
 
-/** كل التصنيفات مسطّحة — للوصول السريع حسب الـ slug */
+/** All categories flattened - for quick lookup by slug */
 export const allCategories: Category[] = categoryGroups.flatMap((g) => g.categories);
 
 export function getCategory(slug: string): Category | undefined {
   return allCategories.find((c) => c.slug === slug);
 }
 
-/** روابط ثابتة في القائمة العلوية */
+/** Static links in the top navigation */
 export const staticLinks = [
   { href: "/articles", title: "المقالات" },
   { href: "/videos", title: "مكتبة الفيديو" },
   { href: "/contact", title: "تواصل معنا" },
 ] as const;
 
-/** روابط المنصات الاجتماعية */
+/** Social platform links */
 export const socialLinks = {
   youtube: "https://youtube.com/@greenbranchs",
   instagram: "https://www.instagram.com/green_branchs",

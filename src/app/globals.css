@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  /* ─── Green Branch palette (من ألوان الشعار) ─── */
+  /* ─── Green Branch palette (taken from the logo) ─── */
   --color-forest-950: #0c2418;
   --color-forest-900: #12331f;
-  --color-forest-800: #1d4a34; /* أخضر الشعار */
+  --color-forest-800: #1d4a34; /* logo green */
   --color-forest-700: #256344;
   --color-forest-600: #2f7d54;
   --color-forest-500: #3d9a67;
@@ -13,7 +13,7 @@
   --color-leaf-100: #dcfce7;
   --color-leaf-50: #f0fdf4;
   --color-gold-600: #a16207;
-  --color-gold-500: #c68b4e; /* ذهبي الشعار */
+  --color-gold-500: #c68b4e; /* logo gold */
   --color-gold-400: #d9a86d;
   --color-gold-100: #f6ecdf;
   --color-cream: #fbfdf9;
@@ -44,6 +44,7 @@
   --animate-grass-breathe: grass-breathe 7s ease-in-out infinite;
   --animate-leaf-drift: leaf-drift 14s linear infinite;
   --animate-shape-float: shape-float 8s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
   --animate-gradient-flow: gradient-flow 10s ease-in-out infinite;
   --animate-float: float 7s ease-in-out infinite;
 
@@ -74,6 +75,10 @@
   @keyframes grass-breathe {
     0%, 100% { transform: scaleY(1); }
     50% { transform: scaleY(1.06); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -160% 0; }
+    100% { background-position: 160% 0; }
   }
   @keyframes shape-float {
     0%, 100% { transform: translate(0, 0); }
@@ -111,7 +116,7 @@
 }
 
 @layer components {
-  /* ─── التدرج الأخضر المتدفق (خلفيات مريحة للعين) ─── */
+  /* ─── flowing green gradients (easy on the eyes) ─── */
   .gradient-flow {
     background: linear-gradient(
       120deg,
@@ -146,7 +151,7 @@
     color: transparent;
   }
 
-  /* ─── الأزرار: تغيّر الألوان عند التحويم ─── */
+  /* ─── buttons: colour shift on hover ─── */
   .btn {
     position: relative;
     display: inline-flex;
@@ -172,7 +177,7 @@
     outline-offset: 3px;
   }
 
-  /* زر أساسي: تدرج أخضر ← يتدفق نحو الذهبي عند التحويم */
+  /* primary button: green gradient sliding to gold on hover */
   .btn-primary {
     color: #fff;
     background-image: linear-gradient(
@@ -197,7 +202,7 @@
     box-shadow: var(--shadow-leaf-lg);
   }
 
-  /* زر ثانوي: حدود خضراء تمتلئ بالأخضر عند التحويم */
+  /* secondary button: green outline filling in on hover */
   .btn-outline {
     color: var(--color-forest-800);
     border: 2px solid var(--color-forest-700);
@@ -223,7 +228,7 @@
     transform: scaleX(1);
   }
 
-  /* زر فاتح فوق الخلفيات الداكنة */
+  /* light button for dark backgrounds */
   .btn-light {
     color: var(--color-forest-800);
     background-image: linear-gradient(110deg, #ffffff 0%, #f0fdf4 45%, #f6ecdf 100%);
@@ -242,7 +247,7 @@
     box-shadow: 0 14px 36px -10px rgb(0 0 0 / 0.35);
   }
 
-  /* لمعة تعبر الزر عند التحويم */
+  /* sheen sweeping across the button on hover */
   .btn-sheen::after {
     content: "";
     position: absolute;
@@ -260,7 +265,7 @@
     transform: translateX(-120%);
   }
 
-  /* ─── بطاقات ─── */
+  /* ─── cards ─── */
   .card-organic {
     background: var(--color-surface);
     border: 1px solid var(--color-border-soft);
@@ -277,7 +282,7 @@
     border-color: var(--color-leaf-400);
   }
 
-  /* روابط القائمة: خط سفلي ينمو */
+  /* nav links: underline grows in */
   .nav-link {
     position: relative;
     transition: color 200ms ease;
@@ -300,7 +305,33 @@
     transform: scaleX(1);
   }
 
-  /* ─── حقول النماذج ─── */
+  /* ─── loading skeletons ─── */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: #e3f0e7;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 160% 100%;
+  background-repeat: no-repeat;
+  animation: var(--animate-shimmer);
+}
+.skeleton-dark {
+  background-color: rgba(255, 255, 255, 0.14);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+/* ─── form fields ─── */
   .field-input {
     width: 100%;
     border-radius: 0.875rem;
@@ -325,7 +356,7 @@
   }
 }
 
-/* ─── احترام تفضيل تقليل الحركة ─── */
+/* ─── respect the reduced-motion preference ─── */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

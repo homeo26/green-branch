@@ -1,12 +1,12 @@
 /**
- * تخزين الملفات على Cloudflare R2 عبر واجهة S3 المتوافقة.
+ * File storage on Cloudflare R2 via its S3-compatible API.
  *
- * متغيرات البيئة المطلوبة:
- *   R2_ACCOUNT_ID        معرّف حساب Cloudflare
- *   R2_ACCESS_KEY_ID     مفتاح الوصول لـ R2
- *   R2_SECRET_ACCESS_KEY المفتاح السري لـ R2
- *   R2_BUCKET            اسم الحاوية (bucket)
- *   R2_PUBLIC_BASE_URL   الرابط العام للحاوية (r2.dev أو نطاق مخصص)
+ * Required environment variables:
+ *   R2_ACCOUNT_ID        Cloudflare account id
+ *   R2_ACCESS_KEY_ID     R2 access key id
+ *   R2_SECRET_ACCESS_KEY R2 secret access key
+ *   R2_BUCKET            bucket name
+ *   R2_PUBLIC_BASE_URL   public bucket URL (r2.dev or a custom domain)
  */
 import {
   DeleteObjectCommand,
@@ -19,16 +19,16 @@ const accountId = process.env.R2_ACCOUNT_ID;
 const accessKeyId = process.env.R2_ACCESS_KEY_ID;
 const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
 const bucket = process.env.R2_BUCKET;
-/** تجاوز اختياري لعنوان الخدمة (لأي مزوّد متوافق مع S3 أو للاختبار) */
+/** Optional endpoint override (any S3-compatible provider, or local testing) */
 const endpointOverride = process.env.R2_ENDPOINT;
 
-/** الرابط العام للملفات المرفوعة (بدون شرطة مائلة في النهاية) */
+/** Public base URL for uploaded files (no trailing slash) */
 export const publicBaseUrl = (process.env.R2_PUBLIC_BASE_URL ?? "").replace(
   /\/$/,
   ""
 );
 
-/** هل إعدادات R2 مكتملة؟ إن لم تكن، يعمل الموقع على المحتوى المبدئي فقط. */
+/** Whether R2 is fully configured. If not, the site serves seed content only. */
 export function isR2Configured(): boolean {
   return Boolean(accountId && accessKeyId && secretAccessKey && bucket);
 }
@@ -56,7 +56,7 @@ function getClient(): S3Client {
   return client;
 }
 
-/** قراءة كائن نصّي؛ تُعيد null إن لم يوجد */
+/** Read a text object; returns null when it does not exist */
 export async function getText(key: string): Promise<string | null> {
   try {
     const res = await getClient().send(
@@ -70,7 +70,7 @@ export async function getText(key: string): Promise<string | null> {
   }
 }
 
-/** كتابة كائن نصّي */
+/** Write a text object */
 export async function putText(
   key: string,
   body: string,
@@ -87,7 +87,7 @@ export async function putText(
   );
 }
 
-/** رفع ملف ثنائي (صورة) وإرجاع رابطه العام */
+/** Upload a binary file (image) and return its public URL */
 export async function putBinary(
   key: string,
   body: Uint8Array,
@@ -105,14 +105,14 @@ export async function putBinary(
   return publicUrlFor(key);
 }
 
-/** حذف كائن */
+/** Delete an object */
 export async function deleteObject(key: string): Promise<void> {
   await getClient().send(
     new DeleteObjectCommand({ Bucket: bucket, Key: key })
   );
 }
 
-/** بناء الرابط العام لمفتاح معيّن */
+/** Build the public URL for a given key */
 export function publicUrlFor(key: string): string {
   if (!publicBaseUrl) return `/${key}`;
   return `${publicBaseUrl}/${key}`;

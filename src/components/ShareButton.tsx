@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CheckIcon,
   CopyIcon,
@@ -9,7 +9,7 @@ import {
   WhatsAppIcon,
 } from "@/components/icons";
 
-/** أزرار مشاركة المقال: مشاركة النظام + واتساب + فيسبوك + نسخ الرابط */
+/** Article share actions: native share, WhatsApp, Facebook and copy link */
 export default function ShareButton({
   title,
   path,
@@ -19,10 +19,20 @@ export default function ShareButton({
 }) {
   const [copied, setCopied] = useState(false);
   const [canNativeShare, setCanNativeShare] = useState(true);
+  // Resolved after mount so the server and first client render agree,
+  // and so share targets always receive an absolute URL.
+  const [origin, setOrigin] = useState(
+    process.env.NEXT_PUBLIC_SITE_URL ?? ""
+  );
+
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SITE_URL) {
+      setOrigin(window.location.origin);
+    }
+  }, []);
 
   function fullUrl(): string {
-    if (typeof window === "undefined") return path;
-    return `${window.location.origin}${path}`;
+    return `${origin}${path}`;
   }
 
   async function handleNativeShare() {
@@ -31,7 +41,7 @@ export default function ShareButton({
       try {
         await navigator.share({ title, text: title, url });
       } catch {
-        /* أُلغيت المشاركة من المستخدم */
+        /* user dismissed the share sheet */
       }
     } else {
       setCanNativeShare(false);
@@ -45,7 +55,7 @@ export default function ShareButton({
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch {
-      /* المتصفح منع النسخ */
+      /* clipboard blocked by the browser */
     }
   }
 

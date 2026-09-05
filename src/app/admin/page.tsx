@@ -36,7 +36,7 @@ export default async function AdminDashboard() {
             التخزين غير مهيّأ بعد
           </h2>
           <p className="mt-2 text-sm leading-7 text-ink">
-            المقالات المعروضة هي المحتوى المبدئي فقط. لتمكين النشر والتعديل ورفع
+            المقالات المعروضة هي content المبدئي فقط. لتمكين النشر والتعديل ورفع
             الصور، اضبط متغيرات البيئة:{" "}
             <code dir="ltr" className="rounded bg-white px-1.5 py-0.5 text-xs">
               R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET,

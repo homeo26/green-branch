@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { isR2Configured, putBinary } from "@/lib/r2";
 import { currentAdminEmail } from "@/lib/session";
 
-const MAX_BYTES = 8 * 1024 * 1024; // 8 ميغابايت
+const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
 const ALLOWED: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 
   if (file.size > MAX_BYTES) {
     return NextResponse.json(
-      { error: "حجم الصورة يتجاوز 8 ميغابايت" },
+      { error: "حجم الصورة يتجاوز 8 MB" },
       { status: 413 }
     );
   }

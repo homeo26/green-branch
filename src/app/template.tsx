@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
-/** انتقالات سلسة بين الصفحات — يعاد تركيبه عند كل تنقّل */
+/** Smooth page transitions - remounted on every navigation */
 export default function Template({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion();
 

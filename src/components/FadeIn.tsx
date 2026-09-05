@@ -3,8 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
- * ظهور ناعم عند التركيب (mount) — مناسب للمحتوى المتدفّق من الخادم،
- * حيث ينتهي انتقال القالب قبل وصول المحتوى.
+ * Soft mount entrance - suited to content streamed from the server,
+ * where the template transition finishes before the content arrives.
  */
 export default function FadeIn({
   children,

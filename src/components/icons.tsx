@@ -153,7 +153,7 @@ export const MailIcon = (p: IconProps) => (
   </svg>
 );
 
-/* ─── أيقونات المنصات الاجتماعية (مسارات رسمية بنمط lawazem) ─── */
+/* ─── Social platform icons (official brand paths, lawazem style) ─── */
 const brand = (p: IconProps): IconProps => ({
   width: 24,
   height: 24,
@@ -204,7 +204,7 @@ export function CategoryIcon({ name, ...props }: IconProps & { name: string }) {
   return <Icon {...props} />;
 }
 
-/** أيقونة انستغرام بتدرج الألوان الرسمي */
+/** Instagram icon with the official gradient */
 export function InstagramGradientIcon(p: IconProps) {
   return (
     <svg width={24} height={24} viewBox="0 0 24 24" aria-hidden {...p}>

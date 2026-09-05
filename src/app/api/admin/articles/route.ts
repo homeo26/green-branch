@@ -38,7 +38,7 @@ function storageUnavailable() {
   );
 }
 
-/** تحويل الحمولة الواردة إلى مقال متحقّق منه */
+/** Validate an incoming payload into an article */
 function buildArticle(payload: ArticlePayload): Article | { error: string } {
   const title = (payload.title ?? "").trim();
   if (!title) return { error: "العنوان مطلوب" };
@@ -100,7 +100,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: built.error }, { status: 400 });
   }
 
-  // منع الكتابة فوق مقال آخر عند إنشاء مقال جديد
+  // prevent overwriting a different article when creating a new one
   const existing = await getAllArticles();
   const isRename = payload.originalSlug && payload.originalSlug !== built.slug;
   const clash = existing.some((a) => a.slug === built.slug);
@@ -114,7 +114,7 @@ export async function POST(request: Request) {
   await saveArticle(built);
   if (isRename) await deleteArticle(payload.originalSlug as string);
 
-  // تحديث الصفحات العامة فورًا
+  // refresh the public pages immediately
   revalidatePath("/");
   revalidatePath("/articles");
   revalidatePath(`/articles/${built.slug}`);

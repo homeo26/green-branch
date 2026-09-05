@@ -1,15 +1,15 @@
 /**
- * التحقق من بيانات دخول المشرف — يستخدم node:crypto،
- * لذا يُستدعى من مسارات الـ API فقط (لا من middleware).
+ * Admin credential verification - uses node:crypto,
+ * so it must only be called from API routes (never middleware).
  *
- * متغيرات البيئة المطلوبة:
- *   ADMIN_EMAIL          بريد المشرف
- *   ADMIN_PASSWORD_HASH  ناتج `npm run hash-password`  (بصيغة scrypt:salt:hash)
- *   AUTH_SECRET          سلسلة عشوائية طويلة لتوقيع الجلسات
+ * Required environment variables:
+ *   ADMIN_EMAIL          admin email
+ *   ADMIN_PASSWORD_HASH  output of `npm run hash-password` (format scrypt:salt:hash)
+ *   AUTH_SECRET          long random string used to sign sessions
  */
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
-/** هل إعدادات المصادقة مكتملة؟ */
+/** Whether authentication is fully configured */
 export function isAuthConfigured(): boolean {
   return Boolean(
     process.env.ADMIN_EMAIL &&
@@ -18,14 +18,14 @@ export function isAuthConfigured(): boolean {
   );
 }
 
-/** توليد لبد كلمة مرور — يُستخدم من سكربت hash-password */
+/** Hash a password - used by the hash-password script */
 export function hashPassword(password: string): string {
   const salt = randomBytes(16).toString("hex");
   const hash = scryptSync(password, salt, 64).toString("hex");
   return `scrypt:${salt}:${hash}`;
 }
 
-/** التحقق من كلمة المرور مقابل اللبد المخزّن */
+/** Verify a password against the stored hash */
 export function verifyPassword(password: string, stored: string): boolean {
   const parts = stored.split(":");
   if (parts.length !== 3 || parts[0] !== "scrypt") return false;
@@ -37,7 +37,7 @@ export function verifyPassword(password: string, stored: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-/** التحقق من بيانات الدخول */
+/** Verify login credentials */
 export function checkCredentials(email: string, password: string): boolean {
   const adminEmail = process.env.ADMIN_EMAIL ?? "";
   const storedHash = process.env.ADMIN_PASSWORD_HASH ?? "";
@@ -45,6 +45,6 @@ export function checkCredentials(email: string, password: string): boolean {
   const emailMatches =
     email.trim().toLowerCase() === adminEmail.trim().toLowerCase();
   const passwordMatches = verifyPassword(password, storedHash);
-  // نتحقق من الاثنين دائمًا لتقليل فروق التوقيت
+  // always evaluate both to reduce timing differences
   return emailMatches && passwordMatches;
 }
